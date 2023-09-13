@@ -1,24 +1,39 @@
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
+import {FaShoppingCart} from 'react-icons/fa'
 
 function App() {
+  const [cart, setCart] = useState([])
+
+  const [products, setProducts] = useState([
+    {name: "Jacket", price: 100},
+    {name: "Pants", price: 50},
+    {name: "Hat", price: 10}
+  ])
+
+  //function buy(e, index) {} eli alla sama asia nuolioperaattorilla
+  const buy = (e, index) => {
+    e.preventDefault()
+    const product = products[index]
+    setCart([...cart,product])
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+  <div id="container">
+    <h1>My web shop</h1>
+    <p><FaShoppingCart /> {cart.length}</p>
+    {
+      products.map((product, index) => (
+        <div key={index}>
+          <form onSubmit={(e) => buy(e,index)}>
+            <h3>{product.name}</h3>
+            <p>{product.price} €</p>
+            <button>Buy</button>
+          </form>
+        </div>
+      ))
+    }
+  </div>
   );
 }
 
